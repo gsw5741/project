@@ -1,0 +1,12 @@
+cn\com\component\system\controller\SystemDictController.class
+cn\com\component\user\controller\SystemUserController.class
+cn\com\component\system\controller\DataSourceController.class
+cn\com\component\cas\security\realm\CustomCasRealm.class
+cn\com\component\security\realm\BaseRealm.class
+cn\com\component\system\ehcache\EacheService.class
+cn\com\component\cas\security\filter\CustomCaseTicketValidateFilter.class
+cn\com\component\controller\BaseController.class
+cn\com\component\system\dic\DictContext.class
+cn\com\component\user\controller\LoginController.class
+cn\com\component\system\controller\SystemMenuController.class
+cn\com\component\system\controller\SystemRoleController.class

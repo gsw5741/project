@@ -1,0 +1,24 @@
+@charset "utf-8";
+/* CSS Document */
+
+.register{
+ float:right;
+}
+
+.searchParam  table{
+   width:60%;
+   border:none;
+   margin: 0 auto;
+}
+.searchParam  th{
+ text-align:center;
+}
+
+.form-horizontal{ width:auto;padding-bottom:10px;}
+.form-horizontal .text{
+	width:50%;
+	display:inline;
+	}
+.form-info .box-body{ margin: 0 auto;width: 100%;}
+.button-list{ margin-left:30%;}
+.button-list button{margin-left:10px;}

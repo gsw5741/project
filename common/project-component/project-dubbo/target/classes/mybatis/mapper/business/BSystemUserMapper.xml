@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.component.dubbo.user.dao.business.BSystemUserDao" >
+  <resultMap id="ResultMap_user" type="cn.com.component.user.cm.bean.business.BSystemUserBean" extends="cn.com.component.dubbo.user.dao.SystemUserDao.BaseResultMap">
+     <collection property="roleList" column="USER_ID" select="selectRoleListByUserId"/>
+     <collection property="tRoleList" column="USER_ID" select="getRoleList"/>
+  </resultMap>
+  <resultMap id="ResultMap_role" type="cn.com.component.user.cm.bean.business.BSystemRoleBean" extends="cn.com.component.dubbo.user.dao.business.BSystemRoleDao.ResultMap_role"/>
+  <resultMap id="ResultMap_trole" type="cn.com.component.user.cm.bean.SystemRole" extends="cn.com.component.dubbo.user.dao.SystemRoleDao.BaseResultMap"/>
+  
+  <select id="selectRoleListByUserId" resultMap="ResultMap_role">
+     select SU.ROLE_ID, SU.ROLE_NAME, SU.CREATE_TIME, SU.CREATE_LOGIN_NAME, SU.DESCRIPTION
+     from ${db.system}.SYSTEM_USER_ROLE SR
+     right join ${db.system}.SYSTEM_ROLE SU on SU.ROLE_ID = SR.ROLE_ID
+     where SR.USER_ID =#{userId}
+  </select>
+  <select id="getRoleList" resultMap="ResultMap_trole">
+     select SU.ROLE_ID, SU.ROLE_NAME, SU.CREATE_TIME, SU.CREATE_LOGIN_NAME, SU.DESCRIPTION
+     from ${db.system}.SYSTEM_USER_ROLE SR
+     right join ${db.system}.SYSTEM_ROLE SU on SU.ROLE_ID = SR.ROLE_ID
+     where SR.USER_ID =#{userId}
+  </select>
+  <select id="selectByUserId" resultMap="ResultMap_user" parameterType="java.lang.String">
+    select <include refid="cn.com.component.dubbo.user.dao.SystemUserDao.Base_Column_List"/>
+    from ${db.user}.SYSTEM_USER
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByUserName" resultMap="ResultMap_user" parameterType="java.lang.String">
+     select <include refid="cn.com.component.dubbo.user.dao.SystemUserDao.Base_Column_List"/>
+    from ${db.user}.SYSTEM_USER
+    where LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+  
+  </select>
+
+  <insert id="insertUserRole" parameterType="java.lang.String">
+    insert into ${db.user}.SYSTEM_USER_ROLE (ROLE_ID, USER_ID)
+   
+    values (#{roleId,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR})
+   
+  </insert>
+  
+  <delete id="deleteByUserRole" parameterType="java.lang.String">
+     delete from ${db.user}.SYSTEM_USER_ROLE
+     where USE_ID = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByRoleId" parameterType="java.lang.String">
+     delete from ${db.user}.SYSTEM_USER_ROLE
+     where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+  </delete>
+</mapper>

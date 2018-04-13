@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.component.dubbo.system.dao.SystemMenuDao" >
+  <resultMap id="BaseResultMap" type="cn.com.component.service.cm.bean.SystemMenu" >
+    <id column="MENU_ID" property="menuId" jdbcType="VARCHAR" />
+    <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
+    <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="P_MENU_ID" property="pMenuId" jdbcType="VARCHAR" />
+    <result column="SORT" property="sort" jdbcType="TINYINT" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="MODIFY_TIME" property="modifyTime" jdbcType="DATE" />
+    <result column="MENU_TYPE" property="menuType" jdbcType="VARCHAR" />
+    <result column="MENU_AUTH" property="menuAuth" jdbcType="VARCHAR" />
+    <result column="MENU_STATE" property="menuState" jdbcType="VARCHAR" />
+    <result column="DEL_FLAG" property="delFlag" jdbcType="TINYINT" />
+    <result column="CREATE_LOGIN_NAME" property="createLoginName" jdbcType="VARCHAR" />
+     <result column="MENU_CSS" property="menuCss" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MENU_ID, MENU_NAME, MENU_URL, P_MENU_ID, SORT, CREATE_TIME, MODIFY_TIME, MENU_TYPE, 
+    MENU_AUTH, MENU_STATE, DEL_FLAG, CREATE_LOGIN_NAME,MENU_CSS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${db.system}.SYSTEM_MENU
+    where MENU_ID = #{menuId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ${db.system}.SYSTEM_MENU
+    where MENU_ID = #{menuId,jdbcType=VARCHAR}
+  </delete>
+ 
+  <insert id="insertSelective" parameterType="cn.com.component.service.cm.bean.SystemMenu" >
+    insert into ${db.system}.SYSTEM_MENU
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        MENU_ID,
+      </if>
+      <if test="menuName != null" >
+        MENU_NAME,
+      </if>
+      <if test="menuUrl != null" >
+        MENU_URL,
+      </if>
+      <if test="pMenuId != null" >
+        P_MENU_ID,
+      </if>
+      <if test="sort != null" >
+        SORT,
+      </if>
+     
+      <if test="menuType != null" >
+        MENU_TYPE,
+      </if>
+      <if test="menuAuth != null" >
+        MENU_AUTH,
+      </if>
+      <if test="menuState != null" >
+        MENU_STATE,
+      </if>
+      <if test="createLoginName != null" >
+        CREATE_LOGIN_NAME,
+      </if>
+      <if test="menuCss != null" >
+        MENU_CSS,
+      </if>
+      
+        CREATE_TIME,
+        DEL_FLAG,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pMenuId != null" >
+        #{pMenuId,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=TINYINT},
+      </if>
+   
+      <if test="menuType != null" >
+        #{menuType,jdbcType=VARCHAR},
+      </if>
+      <if test="menuAuth != null" >
+        #{menuAuth,jdbcType=VARCHAR},
+      </if>
+      <if test="menuState != null" >
+        #{menuState,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="createLoginName != null" >
+        #{createLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuCss != null" >
+         #{menuCss,jdbcType=VARCHAR},
+      </if>
+     
+      now(),
+      1,
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.component.service.cm.bean.SystemMenu" >
+    update ${db.system}.SYSTEM_MENU
+    <set >
+      <if test="menuName != null" >
+        MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        MENU_URL = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pMenuId != null" >
+        P_MENU_ID = #{pMenuId,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        SORT = #{sort,jdbcType=TINYINT},
+      </if>
+     
+     
+        MODIFY_TIME = now(),
+      
+      <if test="menuType != null" >
+        MENU_TYPE = #{menuType,jdbcType=VARCHAR},
+      </if>
+      <if test="menuAuth != null" >
+        MENU_AUTH = #{menuAuth,jdbcType=VARCHAR},
+      </if>
+      <if test="menuState != null" >
+        MENU_STATE = #{menuState,jdbcType=VARCHAR},
+      </if>
+      
+       <if test="menuCss != null" >
+        MENU_CSS = #{menuCss,jdbcType=VARCHAR},
+      </if>
+      
+    </set>
+    where MENU_ID = #{menuId,jdbcType=VARCHAR}
+  </update>
+ <select id="selectMenuByPId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select <include refid="Base_Column_List"/> from ${db.system}.SYSTEM_MENU
+    where  P_MENU_ID = #{pMenuId,jdbcType=VARCHAR} and DEL_FLAG = 1
+ </select>
+ <select id="selectBySearch" resultType="int" parameterType="cn.com.component.service.cm.bean.SystemMenu"> 
+      select count(*) from ${db.system}.SYSTEM_MENU
+      where MENU_NAME = #{menuName,jdbcType=VARCHAR} 
+      <if test="menuId != null">
+       and MENU_ID != #{menuId,jdbcType = VARCHAR}
+      
+      </if>
+ 
+ </select>
+ <delete id="deleteMenuRole" parameterType="java.lang.String">
+   delete from ${db.system}.SYSTEM_ROLE_MENU
+   where MENU_ID = #{menuId,jdbcType = VARCHAR}
+ </delete>
+</mapper>
