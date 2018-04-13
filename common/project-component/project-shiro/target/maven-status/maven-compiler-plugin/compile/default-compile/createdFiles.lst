@@ -1,0 +1,7 @@
+cn\com\component\shiro\security\matcher\CustomCredentialMatcher.class
+cn\com\component\shiro\session\manager\ShiroSessionRepository.class
+cn\com\component\shiro\session\manager\CustomSessionDao.class
+cn\com\component\shiro\session\manager\JedisSessionRespository.class
+cn\com\component\shiro\security\matcher\CustomCredentials.class
+cn\com\component\shiro\cas\filter\CustomCasAuthFilter.class
+cn\com\component\shiro\auth\filter\CustomFormAuthenticationFilter.class

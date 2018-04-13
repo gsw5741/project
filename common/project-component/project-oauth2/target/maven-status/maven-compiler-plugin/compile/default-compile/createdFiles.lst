@@ -1,0 +1,3 @@
+cn\com\component\auth2\security\realm\OAuth2Realm.class
+cn\com\component\oauth2\filter\OAuth2AuthenticationFilter.class
+cn\com\component\auth2\security\token\OAuth2Token.class

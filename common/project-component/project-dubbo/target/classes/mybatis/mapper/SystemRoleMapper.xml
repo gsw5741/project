@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.component.dubbo.user.dao.SystemRoleDao" >
+  <resultMap id="BaseResultMap" type="cn.com.component.user.cm.bean.SystemRole" >
+    <id column="ROLE_ID" property="roleId" jdbcType="VARCHAR" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="CREATE_LOGIN_NAME" property="createLoginName" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ROLE_ID, ROLE_NAME, CREATE_TIME, CREATE_LOGIN_NAME, DESCRIPTION
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${db.system}.SYSTEM_ROLE
+    where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ${db.system}.SYSTEM_ROLE
+    where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="cn.com.component.user.cm.bean.SystemRole" >
+    insert into ${db.system}.SYSTEM_ROLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        ROLE_ID,
+      </if>
+      <if test="roleName != null" >
+        ROLE_NAME,
+      </if>
+      
+      <if test="createLoginName != null" >
+        CREATE_LOGIN_NAME,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+       CREATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+   
+      <if test="createLoginName != null" >
+        #{createLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      NOW(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.component.user.cm.bean.SystemRole" >
+    update ${db.system}.SYSTEM_ROLE
+    <set >
+      <if test="roleName != null" >
+        ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+  </update>
+  <select id="getRoleList" resultMap="BaseResultMap">
+     select  <include refid="Base_Column_List" /> from ${db.system}.SYSTEM_ROLE
+  
+  </select>
+  <select id="selectBySearch" resultType="int" parameterType="cn.com.component.user.cm.bean.SystemRole">
+     select count(*) from ${db.system}.SYSTEM_ROLE
+     where ROLE_NAME = #{roleName,jdbcType=VARCHAR}
+     <if test="roleId !=null">
+      and ROLE_ID != #{roleId,jdbcType=VARCHAR}
+     </if>
+  </select>
+</mapper>

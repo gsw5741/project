@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.component.dubbo.system.dao.SysLoginLogDao" >
+  <resultMap id="BaseResultMap" type="cn.com.component.service.cm.bean.SysLoginLog" >
+    <id column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
+    <result column="LOGIN_USER_NAME" property="loginUserName" jdbcType="VARCHAR" />
+    <result column="LOGIN_DEV" property="loginDev" jdbcType="TINYINT" />
+    <result column="LOGIN_SYSTEM_ID" property="loginSystemId" jdbcType="TINYINT" />
+    <result column="LOGIN_SYSTEM_NAME" property="loginSystemName" jdbcType="VARCHAR" />
+    <result column="LOGIN_IP" property="loginIp" jdbcType="VARCHAR" />
+    <result column="LOGIN_TIME" property="loginTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LOGIN_ID, LOGIN_USER_NAME, LOGIN_DEV, LOGIN_SYSTEM_ID, LOGIN_SYSTEM_NAME, LOGIN_IP, 
+    LOGIN_TIME, CREATE_TIME
+  </sql>
+  
+  <insert id="insertSelective" parameterType="cn.com.component.service.cm.bean.SysLoginLog" >
+    insert into ${db.system}.SYS_LOGIN_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="loginId != null">
+        LOGIN_ID,
+      </if>
+      <if test="loginUserName != null" >
+        LOGIN_USER_NAME,
+      </if>
+      <if test="loginDev != null" >
+        LOGIN_DEV,
+      </if>
+      <if test="loginSystemId != null" >
+        LOGIN_SYSTEM_ID,
+      </if>
+      <if test="loginSystemName != null" >
+        LOGIN_SYSTEM_NAME,
+      </if>
+      <if test="loginIp != null" >
+        LOGIN_IP,
+      </if>
+        LOGIN_TIME,
+        CREATE_TIME,
+ 
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="loginId != null">
+        #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginUserName != null" >
+        #{loginUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginDev != null" >
+        #{loginDev,jdbcType=TINYINT},
+      </if>
+      <if test="loginSystemId != null" >
+        #{loginSystemId,jdbcType=TINYINT},
+      </if>
+      <if test="loginSystemName != null" >
+        #{loginSystemName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp != null" >
+        #{loginIp,jdbcType=VARCHAR},
+      </if>
+      CURRENT_TIMESTAMP(),
+      CURRENT_TIMESTAMP(),
+    </trim>
+  </insert>
+  <select id="listPageSysLoginLog" resultMap="BaseResultMap" parameterType="cn.cn.com.common.vo.PageVO">
+    select <include refid="Base_Column_List"/>
+    from ${db.system}.SYS_LOGIN_LOG
+    where 1 = 1
+    <if test="param.loginUserName !=null and param.loginUserName != ''">
+    and LOGIN_USER_NAME = #{param.loginUserName,jdbcType=VARCHAR}
+    </if>
+ 
+  </select>
+  <select id="getTotal" resultType="int" parameterType="cn.com.component.service.cm.bean.SysLoginLog">
+    select count(*)
+    from ${db.system}.SYS_LOGIN_LOG
+    where 1 = 1
+    <if test="loginUserName !=null and loginUserName != ''">
+    and LOGIN_USER_NAME = #{loginUserName,jdbcType=VARCHAR}
+    </if>
+ 
+  </select>
+</mapper>
