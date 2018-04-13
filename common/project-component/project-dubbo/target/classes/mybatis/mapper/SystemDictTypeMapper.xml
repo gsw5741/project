@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.component.dubbo.system.dao.SystemDictTypeDao" >
+  <resultMap id="BaseResultMap" type="cn.com.component.service.cm.bean.SystemDictType" >
+    <id column="TYPE_ID" property="typeId" jdbcType="BIGINT" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TYPE_ID, NAME, CODE, DESCRIPTION
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${db.system}.SYSTEM_DICT_TYPE
+    where TYPE_ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ${db.system}.SYSTEM_DICT_TYPE
+    where TYPE_ID = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insertSelective" parameterType="cn.com.component.service.cm.bean.SystemDictType" >
+    insert into ${db.system}.SYSTEM_DICT_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+  
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.component.service.cm.bean.SystemDictType" >
+    update ${db.system}.SYSTEM_DICT_TYPE
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TYPE_ID = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="getSystemDictTypeList" resultMap="BaseResultMap">
+      select  <include refid="Base_Column_List" />
+      from ${db.system}.SYSTEM_DICT_TYPE
+   
+  </select>
+  <select id="selectBySearch" resultMap="BaseResultMap">
+      select  <include refid="Base_Column_List" />
+      from ${db.system}.SYSTEM_DICT_TYPE
+      where 1 = 1
+      <if test="code != null">
+      and CODE = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="typeId != null">
+      and TYPE_ID != #{typeId,jdbcType=BIGINT}
+      </if>
+  </select>
+</mapper>

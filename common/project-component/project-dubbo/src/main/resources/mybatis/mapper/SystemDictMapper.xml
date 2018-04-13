@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.component.dubbo.system.dao.SystemDictDao" >
+  <resultMap id="BaseResultMap" type="cn.com.component.service.cm.bean.SystemDict" >
+    <id column="DICT_ID" property="dictId" jdbcType="BIGINT" />
+     <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CODE_LABEL" property="codeLabel" jdbcType="VARCHAR" />
+    <result column="CODE_VALUE" property="codeValue" jdbcType="TINYINT" />
+    <result column="CREATE_ID" property="createId" jdbcType="VARCHAR" />
+    <result column="CREATE_LOGIN_NAME" property="createLoginName" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="DICT_TYPE_ID" property="dictTypeId" jdbcType="BIGINT" />
+    <result column="DEL_FLAG" property="delFlag" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DICT_ID, DICT_TYPE_ID,CODE, CODE_LABEL, CODE_VALUE, CREATE_ID, CREATE_LOGIN_NAME, CREATE_TIME, DEL_FLAG
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${db.system}.SYSTEM_DICT
+    where DICT_ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ${db.system}.SYSTEM_DICT
+    where DICT_ID = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="cn.com.component.service.cm.bean.SystemDict" >
+    insert into ${db.system}.SYSTEM_DICT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dictTypeId != null" >
+        DICT_TYPE_ID,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="codeLabel != null" >
+        CODE_LABEL,
+      </if>
+      <if test="codeValue != null" >
+        CODE_VALUE,
+      </if>
+      <if test="createId != null" >
+        CREATE_ID,
+      </if>
+      <if test="createLoginName != null" >
+        CREATE_LOGIN_NAME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      
+        DEL_FLAG,
+     
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     <if test="dictTypeId != null" >
+        #{dictTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="codeLabel != null" >
+        #{codeLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="codeValue != null" >
+        #{codeValue,jdbcType=TINYINT},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createLoginName != null" >
+        #{createLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+        1
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.component.service.cm.bean.SystemDict" >
+    update ${db.system}.SYSTEM_DICT
+    <set >
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="codeLabel != null" >
+        CODE_LABEL = #{codeLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="codeValue != null" >
+        CODE_VALUE = #{codeValue,jdbcType=TINYINT},
+      </if>
+      <if test="createId != null" >
+        CREATE_ID = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createLoginName != null" >
+        CREATE_LOGIN_NAME = #{createLoginName,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        DEL_FLAG = #{delFlag,jdbcType=TINYINT},
+      </if>
+     
+    </set>
+    where DICT_ID = #{dictId,jdbcType=BIGINT}
+  </update>
+ 
+ <select id="getSystemDictList" resultMap="BaseResultMap" >
+     select <include refid="Base_Column_List"/> from ${db.system}.SYSTEM_DICT
+     where DEL_FLAG = 1
+ </select>
+  <select id="listPageSystemDictList" resultMap="BaseResultMap" parameterType="cn.cn.com.common.vo.PageVO">
+     select <include refid="Base_Column_List"/> from ${db.system}.SYSTEM_DICT
+     where 1 = 1
+      <if test="param.code != null and param.code != ''" >
+     and CODE = #{param.code,jdbcType = VARCHAR}
+     </if>
+      <if test="param.codeLabel != null and param.codeLabel != ''" >
+     and CODE_LABEL LIKE CONCAT(CONCAT('%',#{param.codeLabel,jdbcType = VARCHAR}),'%') 
+     </if>
+     <if test="param.dictTypeId != null and param.dictTypeId != ''" >
+      and DICT_TYPE_ID = #{param.dictTypeId,jdbcType=BIGINT}
+      </if>
+       <if test="param.searchText != null and param.searchText != ''" >
+       and (
+       CODE = #{param.searchText,jdbcType = VARCHAR}
+       or CODE_LABEL LIKE CONCAT(CONCAT('%',#{param.searchText,jdbcType = VARCHAR}),'%') 
+       )
+      </if>
+  </select>
+  <select id="getTotal" resultType="int" parameterType="cn.com.component.service.cm.bean.SystemDict">
+    select count(*) from ${db.system}.SYSTEM_DICT
+     where 1 = 1
+     <if test="codeLabel != null and codeLabel != ''" >
+     and CODE_LABEL LIKE CONCAT(CONCAT('%',#{codeLabel,jdbcType = VARCHAR}),'%') 
+     </if>
+     <if test="code != null and code != ''" >
+     and CODE = #{code,jdbcType = VARCHAR}
+     </if>
+      <if test="dictTypeId != null and dictTypeId != ''" >
+      and DICT_TYPE_ID = #{dictTypeId,jdbcType=BIGINT}
+      </if>
+      <if test="searchText != null and searchText != ''" >
+       and (
+       CODE = #{searchText,jdbcType = VARCHAR}
+       or CODE_LABEL LIKE CONCAT(CONCAT('%',#{searchText,jdbcType = VARCHAR}),'%') 
+       )
+      </if>
+  </select>
+  
+  <delete id="deleteByCode" parameterType="java.lang.String">
+     delete from ${db.system}.SYSTEM_DICT where code = #{code,jdbcType = VARCHAR}
+  </delete>
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.component.dubbo.user.dao.business.BSystemRoleDao" >
+  <resultMap id="ResultMap_role" type="cn.com.component.user.cm.bean.business.BSystemRoleBean" extends="cn.com.component.dubbo.user.dao.SystemRoleDao.BaseResultMap">
+    <collection property="menuList" column="ROLE_ID" select="selectMenuListByRoleId"/>
+  </resultMap>
+  <resultMap id="ResultMap_Menu" type="cn.com.component.service.cm.bean.SystemMenu" extends="cn.com.component.dubbo.system.dao.SystemMenuDao.BaseResultMap"/>
+  <select id="selectByRoleId" resultMap="ResultMap_role" parameterType="java.lang.String" >
+    select 
+    <include refid="cn.com.component.dubbo.user.dao.SystemRoleDao.Base_Column_List" />
+    from ${db.system}.SYSTEM_ROLE
+    where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+  </select>
+  <sql id="Base_Column_List_MENU">
+    sr.MENU_ID, sr.MENU_NAME, sr.MENU_URL, sr.P_MENU_ID, sr.SORT, sr.CREATE_TIME, sr.MODIFY_TIME, sr.MENU_TYPE, 
+    sr.MENU_AUTH, sr.MENU_STATE, sr.DEL_FLAG, sr.CREATE_LOGIN_NAME,sr.MENU_CSS
+  </sql>
+  
+  <select id="selectMenuListByRoleId" resultMap="ResultMap_Menu">
+    select 
+    <include refid="Base_Column_List_MENU" />
+    from ${db.system}.SYSTEM_ROLE_MENU sm
+    right join ${db.system}.SYSTEM_MENU sr on sm.MENU_ID = sr.MENU_ID
+    where sm.ROLE_ID = #{roleId}
+    and sr.DEL_FLAG= 1
+    order by sr.SORT
+  </select>
+ <delete id="deleteByRoleId" parameterType="java.lang.String">
+     delete from ${db.system}.SYSTEM_ROLE_MENU where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="addRoleMenuList" parameterType="java.util.List">
+    insert into ${db.system}.SYSTEM_ROLE_MENU(ROLE_ID,MENU_ID)
+    values
+    <foreach collection="list" item="item"  separator=",">
+      (#{item.roleId,jdbcType=VARCHAR},#{item.menuId,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+</mapper>

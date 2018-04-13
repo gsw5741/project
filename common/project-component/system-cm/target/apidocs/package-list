@@ -1,0 +1,8 @@
+cn.com.component.service.cm.bean
+cn.com.component.system.cm.ehcache
+cn.com.component.system.cm.service
+cn.com.component.system.redis.cache
+cn.com.component.system.redis.service
+cn.com.component.user.cm.bean
+cn.com.component.user.cm.bean.business
+cn.com.componnet.user.cm.service

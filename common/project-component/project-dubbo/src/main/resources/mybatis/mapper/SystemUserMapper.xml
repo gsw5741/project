@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.component.dubbo.user.dao.SystemUserDao" >
+  <resultMap id="BaseResultMap" type="cn.com.component.user.cm.bean.SystemUser" >
+    <id column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR" />
+    <result column="LOGIN_PWD" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="USER_TEL" property="userTel" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="GENDER" property="gender" jdbcType="VARCHAR" />
+    <result column="USER_IMG" property="userImg" jdbcType="VARCHAR" />
+    <result column="NICK_NAME" property="nickName" jdbcType="VARCHAR" />
+    <result column="USER_BIRTH" property="userBirth" jdbcType="VARCHAR" />
+    <result column="SIGN_NATURE" property="signNature" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="MODIFY_TIME" property="modifyTime" jdbcType="DATE" />
+    <result column="USER_STATUS" property="userStatus" jdbcType="TINYINT" />
+    <result column="DEL_FLAG" property="delFlag" jdbcType="TINYINT" />
+      <result column="SALT" property="salt" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USER_ID, USER_NAME, LOGIN_NAME,LOGIN_PWD,USER_TEL, EMAIL, GENDER, USER_IMG, NICK_NAME, 
+    USER_BIRTH, SIGN_NATURE, description, CREATE_TIME, MODIFY_TIME, USER_STATUS,SALT, DEL_FLAG
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${db.user}.SYSTEM_USER
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYSTEM_USER
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insertSelective" parameterType="cn.com.component.user.cm.bean.SystemUser" >
+    insert into ${db.user}.SYSTEM_USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="loginName != null" >
+        LOGIN_NAME,
+      </if>
+      <if test="loginPwd != null" >
+        LOGIN_PWD,
+      </if>
+      <if test="userTel != null" >
+        USER_TEL,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="gender != null" >
+        GENDER,
+      </if>
+      <if test="userImg != null" >
+        USER_IMG,
+      </if>
+      <if test="nickName != null" >
+        NICK_NAME,
+      </if>
+      <if test="userBirth != null" >
+        USER_BIRTH,
+      </if>
+      <if test="signNature != null" >
+        SIGN_NATURE,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+      <if test="userStatus != null" >
+        USER_STATUS,
+      </if>
+      <if test="salt != null" >
+        SALT,
+      </if>
+        CREATE_TIME,
+        DEL_FLAG,
+     
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null" >
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userTel != null" >
+        #{userTel,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="userImg != null" >
+        #{userImg,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirth != null" >
+        #{userBirth,jdbcType=VARCHAR},
+      </if>
+      <if test="signNature != null" >
+        #{signNature,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>  
+      <if test="userStatus != null" >
+        #{userStatus,jdbcType=TINYINT},
+      </if>
+       <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      NOW(),
+      1
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.component.user.cm.bean.SystemUser" >
+    update ${db.user}.SYSTEM_USER
+    <set >
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null" >
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userTel != null" >
+        USER_TEL = #{userTel,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        GENDER = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="userImg != null" >
+        USER_IMG = #{userImg,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        NICK_NAME = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirth != null" >
+        USER_BIRTH = #{userBirth,jdbcType=VARCHAR},
+      </if>
+      <if test="signNature != null" >
+        SIGN_NATURE = #{signNature,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="userStatus != null" >
+        USER_STATUS = #{userStatus,jdbcType=TINYINT},
+      </if>
+     MODIFY_TIME = NOW(),
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+ <!--  根据用户名查看信息 -->
+ <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select <include refid="Base_Column_List"/> from ${db.user}.SYSTEM_USER 
+    where LOGIN_NAME =  #{userName,jdbcType=VARCHAR}
+    and DEL_FLAG = 1
+ </select>
+ <select id="selectByEmail" resultMap="BaseResultMap" parameterType="cn.com.component.user.cm.bean.SystemUser">
+    select <include refid="Base_Column_List"/> from ${db.user}.SYSTEM_USER 
+    where DEL_FLAG = 1
+    and EMAIL = #{email,jdbcType=VARCHAR}
+ </select>
+ 
+ <select id="listPageSystemUserList" resultMap="BaseResultMap" parameterType="cn.cn.com.common.vo.PageVO">
+    select <include refid="Base_Column_List"/> from ${db.user}.SYSTEM_USER
+    where DEL_FLAG = 1
+    <if test="param.loginName!=null and param.loginName!=''">
+     and LOGIN_NAME like CONCAT(CONCAT('%',#{param.loginName,jdbcType=VARCHAR}),'%')
+    </if>
+     <if test="param.userName!=null and param.userName!=''">
+     and USER_NAME like CONCAT(CONCAT('%',#{param.userName,jdbcType=VARCHAR}),'%')
+    </if>
+     <if test="param.userStatus!=null and param.userStatus!=''">
+     and USER_STATUS = #{param.userStatus,jdbcType=VARCHAR}
+    </if>
+    
+ </select>
+ <select id="getTotal" resultType="int" parameterType="cn.com.component.user.cm.bean.SystemUser">
+  select count(*) from ${db.user}.SYSTEM_USER
+    where DEL_FLAG = 1
+    <if test="loginName!=null and loginName!=''">
+     and LOGIN_NAME like CONCAT(CONCAT('%',#{loginName,jdbcType=VARCHAR}),'%')
+    </if>
+     <if test="userName!=null and userName!=''">
+     and USER_NAME like CONCAT(CONCAT('%',#{userName,jdbcType=VARCHAR}),'%')
+    </if>
+     <if test="userStatus!=null and userStatus!=''">
+     and USER_STATUS = #{userStatus,jdbcType=VARCHAR}
+    </if>
+    
+ 
+ </select>
+</mapper>

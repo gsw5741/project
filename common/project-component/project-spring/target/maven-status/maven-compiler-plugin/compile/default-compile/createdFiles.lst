@@ -1,0 +1,6 @@
+cn\com\component\spring\properties\CustomPropertyPlaceholderConfigurer.class
+cn\com\component\spring\file\BaseMultiResolver.class
+cn\com\component\spring\listener\WebContextListener.class
+cn\com\component\spring\properties\SystemConfig.class
+cn\com\component\spring\context\SpringContextHolder.class
+cn\com\component\spring\datasource\MultiDataSource.class
