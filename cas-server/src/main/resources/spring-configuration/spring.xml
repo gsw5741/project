@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Licensed to Jasig under one or more contributor license
+    agreements. See the NOTICE file distributed with this work
+    for additional information regarding copyright ownership.
+    Jasig licenses this file to you under the Apache License,
+    Version 2.0 (the "License"); you may not use this file
+    except in compliance with the License.  You may obtain a
+    copy of the License at the following location:
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+	
+	http://code.alibabatech.com/schema/dubbo 
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+	
+	http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+	">
+	<mvc:resources location="/css/" mapping="/css/**"/>
+	<mvc:resources location="/js/" mapping="/js/**"/>
+	<mvc:resources location="/jsPlugin/" mapping="/jsPlugin/**"/>
+	<mvc:resources location="/static/" mapping="/static/**"/>
+	 <!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="${dubbo.application.name}"/>
+    <dubbo:monitor protocol="${dubbo.monitor.protocol}"/>
+	<!-- 服务地址 -->
+	<dubbo:registry address="${dubbo.registry.address}" />
+    <!-- 生成远程服务代理，可以和本地bean一样使用demoService -->
+	<dubbo:reference id="systemUserService" interface="cn.com.componnet.user.cm.service.SystemUserService" check="false" timeout="10000"/>
+	<dubbo:reference id="sysLoginLogService" interface="cn.com.component.system.cm.service.SysLoginLogService" check="false" timeout="10000"/>
+	<dubbo:reference id="redisCacheService" interface="cn.com.component.system.redis.service.RedisCacheService" check="false" timeout="10000"/>
+	</beans>
