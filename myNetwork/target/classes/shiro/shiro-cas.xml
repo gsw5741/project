@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	">
+
+	<bean id="casSubject" class="org.apache.shiro.cas.CasSubjectFactory"/>
+	<!-- 配置securityManager -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="casRealm" />
+		<property name="subjectFactory" ref="casSubject"/>
+	</bean>
+	
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
+        <property name="arguments" ref="securityManager"/>
+    </bean>
+   <!--  配置cas登录过滤器 -->
+    <bean id="ticketValidator" class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
+       <constructor-arg value="${casServer.address}"/>
+       <property name="encoding" value="UTF-8"/>
+    </bean>
+    <bean id="casFilter" class="cn.com.component.cas.security.filter.CustomCaseTicketValidateFilter">
+      <property name="failureUrl" value="${casServer.address}"/>
+      <property name="redisCacheService" ref="redisCacheService"/>
+      <property name="serviceUrl" value="${local.address}/cas"/>
+      <property name="ticketValidator" ref="ticketValidator"/>
+    </bean>
+    <bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+      <property name="redirectUrl" value="${logoutUrl}"/>
+    </bean>
+ 
+	<!-- 配置shiroFilter -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+	 <property name="securityManager" ref="securityManager"/>
+	 <property name="successUrl" value="${local.address}/index"/>
+	 <property name="loginUrl" value="${casServer.address}"/>
+	 <property name="filters">
+	    <map>
+	     <entry key="cas" value-ref="casFilter"/>
+	     <entry key="logout" value-ref="logoutFilter"/>
+        </map>
+	 
+	 </property>
+	 <property name="filterChainDefinitions">
+	 <value>
+	   /loginOut = logout
+	   /register = anon
+	   /checkLoginName = anon
+	   /checkEmail = anon
+	   /registerMethod = anon
+		 /sessionOut = anon
+		/common/* = anon
+		/jsPlugin/* = anon
+		/static/* = anon
+	   /* = cas
+	 
+	 </value>
+	   
+	 
+	 </property>
+	</bean>
+	
+	<!-- 配置缓存管理器 -->
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:ehcache/ehcache-local.xml" />
+	</bean>
+	
+	<bean id="casRealm" class="cn.com.component.cas.security.realm.CustomCasRealm">
+	  <property name="authenticationCachingEnabled" value="false"/>
+	  <property name="authorizationCachingEnabled" value="false"/>
+	  <property name="cachingEnabled" value="false"/>
+	  <property name="casServerUrlPrefix" value="${casServer.address}"/>
+	  <property name="casService" value="${local.address}/cas"/>
+	</bean>
+	
+	<bean id="eacheService" class="cn.com.component.system.ehcache.EacheService">
+	  <property name="cacheManager" ref="cacheManager"/>
+	</bean>
+   <!--  自动调用shiro bean的生命周期方法 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+   <!--  自动调用shiro注解 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+      <property name="proxyTargetClass" value="true"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD SQL Map Config  3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<properties resource="db.properties"/>
+ <settings>
+  <setting name="mapUnderscoreToCamelCase" value="true"/>
+ </settings>
+ <plugins>
+  <plugin interceptor="cn.com.mybatis.page.interceptor.PageInterceptor" >
+    <property name="pageSqlId" value=".*listPage.*"/>
+    <property name="databaseType" value="${jdbc.dbType}"/>
+  </plugin>
+ </plugins>
+</configuration>

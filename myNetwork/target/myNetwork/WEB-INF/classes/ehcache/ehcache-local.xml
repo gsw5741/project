@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" name="defaultCache">
+
+	<diskStore path="D:/myNetwork/cache/ehcache/default" />
+
+	<!-- DefaultCache setting. -->
+	<defaultCache maxElementsInMemory="10000" memoryStoreEvictionPolicy="LRU" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="300" overflowToDisk="false" diskPersistent="false" />
+	<cache name="SYS_CACHE" statistics="true" maxElementsInMemory="10000" memoryStoreEvictionPolicy="LRU" eternal="true" diskPersistent="false" overflowToDisk="true" maxElementsOnDisk="1000000" />
+	<cache name="DICT_CACHE" statistics="true" maxElementsInMemory="10000" memoryStoreEvictionPolicy="LRU" eternal="true" diskPersistent="false" overflowToDisk="true" maxElementsOnDisk="1000000" />  
+    <cache name="shiro-activeSessionCache" maxElementsInMemory="100" overflowToDisk="true"
+           eternal="true" timeToLiveSeconds="0" timeToIdleSeconds="0"
+           diskPersistent="true" diskExpiryThreadIntervalSeconds="600"/>
+
+    <cache name="org.apache.shiro.realm.text.PropertiesRealm-0-accounts"
+           maxElementsInMemory="1000" eternal="true" overflowToDisk="true"/>
+    
+    <cache name="SimplePageCachingFilter" maxElementsInMemory="1000" eternal="false" overflowToDisk="true"
+    	timeToIdleSeconds="120" timeToLiveSeconds="120" memoryStoreEvictionPolicy="LFU"/>
+    	
+</ehcache>
